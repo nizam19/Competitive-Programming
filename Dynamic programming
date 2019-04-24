@@ -1,5 +1,8 @@
 Basic Fibonnaci in O(n)
 https://www.hackerrank.com/challenges/ctci-fibonacci-numbers/problem
 
-Classic DP
+Basic DP
 https://www.codechef.com/problems/POGOSTCK
+
+DP + bits
+https://www.codechef.com/problems/VNR1912
