@@ -1,11 +1,14 @@
 Basic Fibonnaci in O(n)
 https://www.hackerrank.com/challenges/ctci-fibonacci-numbers/problem
 
-Basic DP
+1-D Observational DP
 https://www.codechef.com/problems/POGOSTCK
 
-DP + bits
+1-D DP + bitmanip
 https://www.codechef.com/problems/VNR1912
 
-DP + Fact 
+1-D DP + Fact 
 https://www.codechef.com/MAY19B/problems/REDONE
+
+2-D DP Maximum path sum
+https://leetcode.com/problems/minimum-path-sum/
