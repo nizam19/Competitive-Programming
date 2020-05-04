@@ -1,81 +1,75 @@
-#include<bits/stdc++.h>
+//https://www.hackerrank.com/contests/vnr-coding-contest-final/challenges/help-harshita/
+#include <bits/stdc++.h>
 using namespace std;
 
-const int maxn = 2 * 1e3;
+const int maxn = 2 * 1e6;
 
 int n,q;
 int a[maxn],st[maxn];
 
-void buildST(int si,int se,int curr){
+void build(int si,int se,int curr){
     if(si==se){
-        st[curr]=a[si];
-        return;
-    }
-
-    int left = 2*curr+1, right = 2*curr+2, mid = (si+se)/2;
-
-    buildST(si,mid,left);
-    buildST(mid+1,se,right);
-
-    st[curr] = st[left]+st[right]; 
-}
-
-int qry(int si,int se,int curr,int l,int r){
-    if(si>=l and se<=r)
-        return st[curr];
-
-    if(se<l or si>r)
-        return 0;
-
-    int left = 2*curr+1, right = 2*curr+2, mid = (si+se)/2;
-    return qry(si,mid,left,l,r) + qry(mid+1,se,right,l,r);
-}
-
-void upd(int si,int se,int curr,int pos,int diff){
-    if(si>pos or se<pos) 
-        return;
-
-    if(si==se){
-        st[curr]+=diff;
+        st[curr] = a[si];
         return;
     }
     
     int left = 2*curr+1, right = 2*curr+2, mid = (si+se)/2;
-    upd(si,mid,left,pos,diff);
-    upd(mid+1,se,right,pos,diff);
-    st[curr] = st[left]+st[right];
+    
+    build(si,mid,left);
+    build(mid+1,se,right);
+    
+    st[curr] = min(st[left],st[right]);
 }
 
-int main(){
-    cin>>n>>q;
+int qry(int si,int se,int curr,int l,int r){
+    if(se<l or si>r){
+        return INT_MAX;
+    }
+    if(si>=l and se<=r){
+        return st[curr];
+    }
+    int left = 2*curr+1, right = 2*curr+2, mid = (si+se)/2;
+    return min(qry(si,mid,left,l,r),qry(mid+1,se,right,l,r));
+}
 
+void upd(int si,int se,int curr,int pos,int val){
+    if(si>pos or se<pos) return;
+    if(si==se){
+        st[curr] = val;
+        return;
+    }
+    int left = 2*curr+1, right = 2*curr+2, mid = (si+se)/2;
+    upd(si,mid,left,pos,val);
+    upd(mid+1,se,right,pos,val);
+    st[curr] = min(st[left],st[right]);
+}
+
+int main() {
+    cin>>n>>q;
+    
     for(int i=0;i<n;i++){
         cin>>a[i];
     }
-
-
-    buildST(0,n-1,0);
-
+    
+    build(0,n-1,0);
+    
     while(q--){
         int x,l,r;
         cin>>x>>l>>r;
         if(x==1){
             //a[l-1]=r;
-            int pos = l-1, diff = r-a[l-1];
-            upd(0,n-1,0,pos,diff);
+            upd(0,n-1,0,l-1,r);
         } else cout<<qry(0,n-1,0,l-1,r-1)<<endl;
     }
-
     return 0;
 }
-
 /*
 n q (size, queries)
 array (n elements)
 type left right (repeats q times)
 
 type 1 update a[l]=r;
-type 2 sum in range [l,r]
+type 2 minimum in range [l,r]
 
 1 based indexing
 
@@ -89,8 +83,8 @@ Input-
 2 6 10
 
 Output-
-7
-39
-15
+-4
+-2
+1
 
 */
