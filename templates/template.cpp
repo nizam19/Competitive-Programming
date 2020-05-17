@@ -29,11 +29,12 @@ signed main(){
 
     fastin;
     
-    int t=1;
+    int t = 1,tt = 1;
     
     cin>>t;
  
     while(t--){
+        //cout<<"Case #"	<<tt++<<": ";
         testCase();
     }
  
